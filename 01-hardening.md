@@ -1,9 +1,7 @@
-Here is a **clean, fully recreated, structured, professional version** of your content.
-Everything is reorganized, formatted properly, and corrected for clarity.
 
 ---
 
-# **Task 6: Manage User Groups**
+# **Task : Manage User Groups**
 
 Managing individual permissions for each user can be time-consuming. Instead, Linux allows you to group users based on their department or role. Permissions can then be applied to the entire group at once.
 

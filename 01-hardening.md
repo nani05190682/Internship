@@ -1,179 +1,190 @@
-Hands-On Lab: Hardening Kali Linux
-
-
-These steps are continued from the previous page.
+Here is a **clean, fully recreated, structured, professional version** of your content.
+Everything is reorganized, formatted properly, and corrected for clarity.
 
 ---
 
-## Task 6: Manage User Groups
+# **Task 6: Manage User Groups**
 
-Instead of setting permissions for each user one at a time, you can add users to groups appropriate for their roles. In Linux, a group is a collection of users, and you can set permissions for the entire group.
+Managing individual permissions for each user can be time-consuming. Instead, Linux allows you to group users based on their department or role. Permissions can then be applied to the entire group at once.
 
-**Example:** Assume that your HR department has numerous employees, each needing access to the HR directory and several other directories. You could:
+### **Real-Time Example**
 
-* Create a group named `hr`.
-* Grant this group access to the appropriate directories.
-* Add all HR employees’ user accounts to the `hr` group.
+Suppose your **HR department** has many employees who all need access to the `/hr` directory and some other restricted folders. Instead of configuring each user individually, you can:
 
-This ensures that employees in the same role have the same level of access.
+* Create a group named **hr**
+* Assign permissions for `/hr` to the **hr** group
+* Add all HR employee accounts to the **hr** group
 
-### Manage User Groups Using the Command Line
+This ensures **consistent, role-based access control**.
 
-1. Create a new group:
+---
 
-   ```bash
-   sudo groupadd testusers
+## **Manage User Groups Using the Command Line**
 
-The groupadd command adds a new group named testusers.
+### **1. Create a New Group**
 
-Add a user to the group:
-
-sudo usermod -a -G testusers test
-
-usermod modifies an existing user.
-
--a appends the user to the group without removing them from others.
-
--G specifies the group(s) to add the user to.
-
-Confirm the user was added:
-
-getent group
-
-Each line shows:
-
-Group name (e.g., adm).
-
-Encrypted password placeholder (x).
-
-Group ID (GID).
-
-Users in the group.
-
-Scroll to find testusers with user test listed.
-
-Task 6: Manage User Groups
-
-Instead of setting permissions for each user one at a time, you can add users to groups appropriate for their roles. In Linux, a group is a collection of users, and you can set permissions for the entire group.
-
-Example: Assume that your HR department has numerous employees, each needing access to the HR directory and several other directories. You could:
-
-Create a group named hr.
-
-Grant this group access to the appropriate directories.
-
-Add all HR employees’ user accounts to the hr group.
-
-This ensures that employees in the same role have the same level of access.
-
-Manage User Groups Using the Command Line
-
-Create a new group:
-
+```bash
 sudo groupadd testusers
+```
 
-The groupadd command adds a new group named testusers.
+**Explanation:**
 
-Add a user to the group:
+* `groupadd` creates a new group named **testusers**.
 
+---
+
+### **2. Add a User to the Group**
+
+```bash
 sudo usermod -a -G testusers test
+```
 
-usermod modifies an existing user.
+**Explanation:**
 
--a appends the user to the group without removing them from others.
+* `usermod` modifies an existing user
+* `-a` → *append*, ensures the user is added without removing them from other groups
+* `-G` → specifies the group(s) to add the user to
 
--G specifies the group(s) to add the user to.
+---
 
-Confirm the user was added:
+### **3. Confirm the User Was Added**
 
+```bash
 getent group
+```
 
-Each line shows:
+Each line displays:
 
-Group name (e.g., adm).
+* **Group name** (example: `adm`)
+* **Password placeholder** (`x`)
+* **Group ID** (GID)
+* **Users in that group**
 
-Encrypted password placeholder (x).
+Scroll until you find:
 
-Group ID (GID).
+```
+testusers:x:<GID>:test
+```
 
-Users in the group.
+This confirms that **test** is now part of the `testusers` group.
 
-Scroll to find testusers with user test listed.
+---
 
-Manage User Groups Using the GUI
+## **Manage User Groups Using the GUI (Graphical Interface)**
 
-Navigate: Applications > Usual Applications > System > Users and Groups.
+1. Navigate to:
+   **Applications → Usual Applications → System → Users and Groups**
+2. Select **Test Two** from the list of users
+3. Click **Manage Groups**
+4. In the Groups window, you may click **Add** to create a new group if needed
+5. Select **testusers**, then click **Properties**
+6. Confirm that user **test** is listed and checked
 
-Select Test Two from the list of users, then click Manage Groups.
+   * Note: The GID may appear here (e.g., **1002**)
+7. To add another user, check **TestTwo** and click **OK**
+8. Ensure both **test** and **TestTwo** appear as members of the group
+9. Close all settings windows
 
-In the Groups settings window, click Add to create a new group if needed.
+---
 
-Select testusers and click Properties.
+# **Task 7: Configure the Firewall Using UFW**
 
-Confirm user test is listed with a checkmark. Note the GID (e.g., 1002).
+A **firewall** filters network traffic based on rules you define.
+In this task, you will install and configure **UFW (Uncomplicated Firewall)**, a simple yet powerful firewall tool for Ubuntu/Debian systems.
 
-Add user TestTwo by selecting the checkbox and clicking OK.
+---
 
-Confirm both test and TestTwo are listed in the group.
+## **Steps to Configure UFW**
 
-Close the settings windows.
+### **1. Install UFW**
 
-Task 7: Configure the Firewall Using UFW
-
-A firewall controls traffic to and from a network or device using rules you specify. In this lab, you’ll install and configure Uncomplicated Firewall (ufw).
-
-Steps
-
-Install ufw:
-
+```bash
 sudo apt install ufw
+```
 
-Check firewall status:
+---
 
+### **2. Check Firewall Status**
+
+```bash
 sudo ufw status
+```
 
-Initially inactive.
+Initially, it will show:
 
-Enable the firewall:
+```
+Status: inactive
+```
 
+---
+
+### **3. Enable the Firewall**
+
+```bash
 sudo ufw enable
+```
 
-Confirm status:
+---
 
+### **4. Verify Status**
+
+```bash
 sudo ufw status
+```
 
-View detailed status:
+Check detailed status:
 
+```bash
 sudo ufw status verbose
+```
 
 Default rules:
 
-Deny all incoming traffic.
+* Deny **all incoming** traffic
+* Allow **all outgoing** traffic
+* Routed traffic disabled
 
-Allow all outgoing traffic.
+---
 
-Disable routed traffic.
+## **5. Add Firewall Rules**
 
-Allow SSH (port 22):
+### **Allow SSH (Port 22)**
 
+```bash
 sudo ufw allow 22/tcp
+```
 
-Allow HTTP (port 80):
+### **Allow HTTP (Port 80)**
 
+```bash
 sudo ufw allow 80/tcp
+```
 
-Deny Telnet (port 23):
+### **Deny Telnet (Port 23)**
 
+```bash
 sudo ufw deny 23
+```
 
-Confirm rules:
+---
 
+### **6. Review Rules**
+
+```bash
 sudo ufw status verbose
+```
 
-Rules apply to both IPv4 and IPv6.
+You will see rules applied for both **IPv4** and **IPv6**.
 
-Disable the firewall (for demonstration only):
+---
 
+### **7. Disable the Firewall (Demo Only)**
+
+```bash
 sudo ufw disable
+```
 
-Note: In a real environment, always enable the firewall with rules tailored to your organization’s needs.
+> **Important:**
+> In real production environments, always keep the firewall enabled and properly configured based on your organization’s security policies.
+
+---

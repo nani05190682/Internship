@@ -1,4 +1,3 @@
----
 
 # 🔐 Lab Exercise: Symmetric Key Encryption on Linux (Using OpenSSL & GPG)
 

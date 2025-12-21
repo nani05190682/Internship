@@ -182,21 +182,5 @@ openssl enc -aes-256-cbc -d -in app.conf.enc -out app.conf
 
 ---
 
-## 🧩 Challenge Tasks (For Students)
 
-1. Encrypt a directory using `tar + openssl`
-2. Use a **key file instead of password**
-3. Try different AES modes (`aes-128`, `aes-192`)
-4. Automate encryption using a shell script
-
----
-
-## 📌 Lab Completion Checklist
-
-✅ File encrypted successfully
-✅ File decrypted correctly
-✅ Hash values matched
-✅ Understood symmetric encryption concept
-
----
 
